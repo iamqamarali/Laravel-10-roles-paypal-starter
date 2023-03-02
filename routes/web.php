@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 /**
  * admin dashboard
  */
-Route::view('/dashboard', 'dashboard')->middleware(['auth'])->name('dashboard');
+Route::view('/dashboard', 'dashboard')->middleware(['auth', 'role:super-admin'])->name('dashboard');
 Route::resource('groups', GroupsController::class);
 
 

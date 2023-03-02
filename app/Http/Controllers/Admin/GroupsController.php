@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class GroupsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:super-admin');
+    }
+
     /**
      * Display a listing of the resource.
      */
