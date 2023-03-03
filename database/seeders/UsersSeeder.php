@@ -12,7 +12,7 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
 
         $admin = \App\Models\User::factory()->create([
             'name' => 'Admin',
@@ -21,6 +21,9 @@ class UsersSeeder extends Seeder
         $admin->password = bcrypt('password');
         $admin->save();
 
-        $admin->assignRole(['super-admin']);
+        $admin->syncRoles([
+            'super-admin',
+            'admin'
+        ]);
     }
 }

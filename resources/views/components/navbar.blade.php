@@ -4,16 +4,18 @@
     
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a 
-            @class([
-              'nav-link',
-              'active' => Route::is('groups.index')
-            ]) 
-            href="{{ route('groups.index') }}">
-            Groups
-          </a>
-        </li>
+        @can('viewAny-group')
+          <li class="nav-item">
+            <a 
+              @class([
+                'nav-link',
+                'active' => Route::is('groups.index')
+              ]) 
+              href="{{ route('groups.index') }}">
+              Groups
+            </a>
+          </li>            
+        @endcan
         <li class="nav-item">
           <a class="nav-link" href="#">Products</a>
         </li>

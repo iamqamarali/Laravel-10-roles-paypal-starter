@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
  */
 Route::view('/dashboard', 'dashboard')->middleware(['auth', 'role:super-admin'])->name('dashboard');
 Route::resource('groups', GroupsController::class);
-
+ 
 
 /**
  * customer area

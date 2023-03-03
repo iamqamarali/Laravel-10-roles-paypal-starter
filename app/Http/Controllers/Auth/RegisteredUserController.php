@@ -41,10 +41,9 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->syncRoles('super-admin');
 
         event(new Registered($user));
-
-        Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class GroupsController extends Controller
 {
@@ -15,6 +17,7 @@ class GroupsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('role:super-admin');
+
     }
 
     /**
@@ -22,19 +25,23 @@ class GroupsController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny-group');
+
         $groups = Group::withCount('users')->paginate(15);
 
         return view('groups.index')
-            ->with('groups', $groups);
+                ->with('groups', $groups);
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create(): View
-    {
+    {   
+        $this->authorize('create-group');
+
         return view('groups.create')
-            ->with('group', new Group);
+                ->with('group', new Group);
     }
 
     /**
@@ -42,6 +49,8 @@ class GroupsController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->authorize('create-group');
+
         $validated = $request->validate([
             'name' => 'required|max:255',
             'description' => 'sometimes'
@@ -66,6 +75,8 @@ class GroupsController extends Controller
      */
     public function edit(Group $group): View
     {
+        Gate::allowIf(fn (User $user) => $user->hasRole('super-admin'));
+
         return view('groups.create')
             ->with('group', $group);
     }
@@ -75,6 +86,8 @@ class GroupsController extends Controller
      */
     public function update(Request $request, Group $group)
     {
+        Gate::allowIf(fn (User $user) => $user->hasRole('super-admin'));
+
     }
 
     /**
@@ -82,6 +95,8 @@ class GroupsController extends Controller
      */
     public function destroy(Group $group)
     {
+        $this->authorize('delete-group');
+
         $group->delete();
         return redirect()->back()->with('success', 'Group deleted successfully');
     }

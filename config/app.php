@@ -194,10 +194,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
         
-        Spatie\Permission\PermissionServiceProvider::class,
-
-
         // My Custom Providers
         App\Providers\BladeServiceProvider::class,
 

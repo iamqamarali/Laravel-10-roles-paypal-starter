@@ -42,13 +42,18 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, Request $request) {
-            if(auth()->user()->hasAnyRole(['super-admin', 'admin'])){
-                return redirect('dashboard');
-            }
-            else{
-                return redirect('/login');
+        $this->renderable(function (\Symfony\Component\HttpKernel\Exception\HttpException $e, Request $request) {
+            // unauthorized access
+            if($e->getStatusCode() == 403){
+                if(auth()->user()->hasAnyRole(['super-admin', 'admin'])){
+                    return redirect('dashboard');
+                }
+                else{
+                    return redirect('/login');
+                }    
             }
         });
+        
     }
+
 }
