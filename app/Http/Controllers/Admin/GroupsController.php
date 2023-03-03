@@ -49,7 +49,7 @@ class GroupsController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->authorize('create-group');
+        Gate::authorize('create-group');
 
         $validated = $request->validate([
             'name' => 'required|max:255',
@@ -60,14 +60,14 @@ class GroupsController extends Controller
 
 
         return redirect()->route('groups.index')->with('success', 'Group created successfully');
-    }
+    } 
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        // 
     }
 
     /**
@@ -75,7 +75,7 @@ class GroupsController extends Controller
      */
     public function edit(Group $group): View
     {
-        Gate::allowIf(fn (User $user) => $user->hasRole('super-admin'));
+       Gate::authorize('update-group', $group);
 
         return view('groups.create')
             ->with('group', $group);
@@ -86,7 +86,17 @@ class GroupsController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        Gate::allowIf(fn (User $user) => $user->hasRole('super-admin'));
+        Gate::allowIf(fn (User $user) => $user->hasRole('super-admin'), 'Not Found', 404);
+
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'sometimes'
+        ]);
+
+        $group = $group->fill($validated)->save();
+
+
+        return redirect()->route('groups.index')->with('success', 'Group updated successfully');
 
     }
 
@@ -95,7 +105,7 @@ class GroupsController extends Controller
      */
     public function destroy(Group $group)
     {
-        $this->authorize('delete-group');
+        $this->authorize('delete-group', $group);
 
         $group->delete();
         return redirect()->back()->with('success', 'Group deleted successfully');

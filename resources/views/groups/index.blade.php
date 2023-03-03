@@ -36,6 +36,9 @@
                                             <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                             <ul class="dropdown-menu dropdown-menu-end " >
                                                 <li>
+                                                    <a href="{{ route('groups.edit', $group->id) }}" class="dropdown-item">Edit</a>
+                                                </li>
+                                                <li>
                                                     <form action="{{ route('groups.destroy', $group->id) }}" method="POST" >
                                                         @csrf
                                                         @method('delete')

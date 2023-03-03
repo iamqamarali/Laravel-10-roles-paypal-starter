@@ -19,6 +19,7 @@
                                 <form action="{{ route('groups.store') }}" method="post">
                             @else
                                 <form action="{{ route('groups.update', $group->id) }}" method="post">
+                                    @method('PUT')
                             @endrouteis
                                 @csrf
                                 <div class="mb-3">
