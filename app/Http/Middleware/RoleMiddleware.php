@@ -20,6 +20,6 @@ class RoleMiddleware
             return $next($request);
         }
         
-        throw new HttpException(403, 'You dont have the right roles');
+        throw new HttpException(403, 'You are not allowed to access this page.');
     }
 }

@@ -25,9 +25,9 @@
                             <th></th>
                         </thead>
                         <tbody>
-                            @foreach ($groups as $group)
+                            @foreach ($groups as $group) 
                                 <tr>
-                                    <td>{{ $group->name }}</td>
+                                    <td><a href="{{route('groups.products.index', $group->id)}}">{{ $group->name }}</a></td>
                                     <td>{{ $group->description }}</td>
                                     <td>{{ $group->users_count }}</td>
                                     {{-- <td>{{ $group->amazon_products_count }}</td> --}}
@@ -47,12 +47,14 @@
                                                 </li>
                                             </ul>
                                         </div>
-
+                                        
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+
+                    {{ $groups->links() }}
 
                 </div>
             </div>

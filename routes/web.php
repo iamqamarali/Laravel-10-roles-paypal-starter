@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AmazonProductsController;
 use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\OnlineArbitrageLead\CheckoutController;
 use App\Http\Controllers\PagesController;
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
  */
 Route::view('/dashboard', 'dashboard')->middleware(['auth', 'role:super-admin'])->name('dashboard');
 Route::resource('groups', GroupsController::class);
+Route::resource('groups.products', AmazonProductsController::class)
+                ->shallow()
+                ->only(['index', 'create', 'store', 'destroy']);
  
 
 /**
