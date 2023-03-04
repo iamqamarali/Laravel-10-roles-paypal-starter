@@ -21,9 +21,6 @@ class UsersSeeder extends Seeder
         $admin->password = bcrypt('password');
         $admin->save();
 
-        $admin->syncRoles([
-            'super-admin',
-            'admin'
-        ]);
+        $admin->syncRoles('super-admin|admin');
     }
 }

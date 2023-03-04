@@ -66,7 +66,9 @@ class User extends Authenticatable
      */
     public function syncRoles($roles) : void
     {
-        $roles = explode('|', $roles);
+        if(is_string($roles))
+            $roles = explode('|', $roles);
+
         $this->roles = implode('|', $roles);
         $this->save();
     }
