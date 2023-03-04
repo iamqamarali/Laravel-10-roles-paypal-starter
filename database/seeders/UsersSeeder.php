@@ -21,6 +21,20 @@ class UsersSeeder extends Seeder
         $admin->password = bcrypt('password');
         $admin->save();
 
-        $admin->syncRoles('super-admin|admin');
+        $admin->syncRoles('super-admin');
+
+
+        // customer
+        $admin = \App\Models\User::factory()->create([
+            'name' => 'Customer',
+            'email' => "customer@gmail.com"
+        ]);
+        $admin->password = bcrypt('password');
+        $admin->save();
+
+        $admin->syncRoles('customer');
+
+
+
     }
 }

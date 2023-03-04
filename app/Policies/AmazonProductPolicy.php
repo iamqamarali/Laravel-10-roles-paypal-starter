@@ -13,8 +13,8 @@ class AmazonProductPolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->hasRole('super-admin') 
-                    ? Response::allow()
+        return $user->hasRole('super-admin|customer') 
+                    ? Response::allow() 
                     : Response::denyAsNotFound();
     }
 

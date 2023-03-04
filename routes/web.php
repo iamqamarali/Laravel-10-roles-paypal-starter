@@ -27,15 +27,12 @@ Route::get('/checkouts/online-arbitrage-lead', [CheckoutController::class, 'inde
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 
 
 /**
  * admin dashboard
  */
-Route::view('/dashboard', 'dashboard')->middleware(['auth', 'role:super-admin'])->name('dashboard');
 Route::resource('groups', GroupsController::class);
 Route::resource('groups.products', AmazonProductsController::class)
                 ->shallow()
@@ -45,4 +42,4 @@ Route::resource('groups.products', AmazonProductsController::class)
 /**
  * customer area
  */
-Route::get('/', [PagesController::class, 'home'])->name('home');
+Route::get('/', [PagesController::class, 'dashboard'])->name('dashboard');

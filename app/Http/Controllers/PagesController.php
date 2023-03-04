@@ -13,8 +13,8 @@ class PagesController extends Controller
 
 
 
-    public function home(){
-        
+    public function dashboard(){
+        return view('dashboard');
     }
 
 }

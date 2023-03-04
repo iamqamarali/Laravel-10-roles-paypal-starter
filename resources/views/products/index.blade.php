@@ -21,6 +21,7 @@
                     <table class="table mb-5">
                         <thead>
                             <th>Name</th>
+                            <th>Store Link</th>
                             <th>Monthly Sales</th>
                             <th>BSR</th>
                             <th>Selling Price</th>
@@ -31,6 +32,21 @@
                             <th>Profit</th>
                             <th>ROI</th>
                             <th>Discount Code</th>
+                            <th>
+                                @php
+                                    $url = route('groups.products.index', [$group->id,  
+                                        'created_at' => request()->query('created_at') == 'desc' ? 'asc' : 'desc',
+                                        'page' => 1 
+                                    ]);
+                                @endphp
+                                <a href="{{ $url }}" class="text-dark">
+                                    Date
+                                    <i class="fa-solid fa-arrow-{{ request()->query('created_at') == 'desc' ? 'up' : 'down' }}"></i>    
+                                </a>
+                            </th>
+                            @can('delete', App\Model\AmazonProduct::class)
+                                <th></th>
+                            @endcan
                         </thead>
                         <tbody>
                             @foreach ($products as $product) 
@@ -40,6 +56,7 @@
                                             {{ str($product->title)->substr(0, 30) . '...' }}    
                                         </a>
                                     </td>
+                                    <td><a href="{{ $product->data->store_link }}" target="_blank">View</a></td>
                                     <td>{{ $product->data->monthly_sales }}</td>
                                     <td>{{ $product->data->bsr }}</td>
                                     <td>{{ $product->data->selling_price }}</td>
@@ -50,11 +67,13 @@
                                     <td>{{ $product->data->profit  }}</td>
                                     <td>{{ $product->data->roi  }}</td>
                                     <td>{{ str($product->data->discount_code)->substr(0,10) .'...'  }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                            <ul class="dropdown-menu dropdown-menu-end " >
-                                                @can('delete', $product)
+                                    <td>{{ $product->created_at->format('d/m/Y') }}</td>
+
+                                    @can('delete', $product)
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                                <ul class="dropdown-menu dropdown-menu-end " >
                                                     <li>
                                                         <form action="{{ route('products.destroy', $product->id) }}" method="POST" >
                                                             @csrf
@@ -62,17 +81,18 @@
                                                             <button type="button" class="dropdown-item delete-product" >Destroy</button>
                                                         </form>
                                                     </li>
-                                                @endcan
-                                            </ul>
-                                        </div>
-                                    </td>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    @endcan
+                                    
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     
 
-                    {{ $products->links() }}
+                    {{ $products->withQueryString()->links() }}
 
                 </div>
             </div>

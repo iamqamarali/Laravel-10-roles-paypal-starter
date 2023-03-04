@@ -20,6 +20,6 @@ class RoleMiddleware
             return $next($request);
         }
         
-        throw new HttpException(403, 'You are not allowed to access this page.');
+        throw new HttpException(404, 'Not Found');
     }
 }

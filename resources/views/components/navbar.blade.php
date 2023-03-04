@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand py-3 bg-white">
   <div class="container">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Laravel</a>
     
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
       <ul class="navbar-nav">

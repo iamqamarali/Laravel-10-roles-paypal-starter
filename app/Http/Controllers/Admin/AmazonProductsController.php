@@ -13,19 +13,25 @@ class AmazonProductsController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'role:super-admin']);
+        $this->middleware('auth');
+        $this->middleware('role:super-admin')->except([
+            'index', 'show'
+        ]);
+        $this->middleware('role:super-admin|customer')->only([
+            'index', 'show'
+        ]);
     }
 
     /** 
      * Display a listing of the resource.
      */
-    public function index(Group $group)
+    public function index(Request $request, Group $group)
     {        
         $this->authorize('viewAny', AmazonProduct::class);
 
         return view('products.index', [
             'group' => $group,
-            'products' => $group->amazon_products()->latest()->paginate(50),
+            'products' => $group->amazon_products()->orderBy('created_at', $request->created_at ?? 'desc' )->paginate(50),
         ]);
     }
 

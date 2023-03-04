@@ -11,12 +11,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class GroupsController extends Controller
-{
+{ 
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:super-admin');
+        $this->middleware('role:super-admin')->except([
+            'index', 'show'
+        ]);
+        $this->middleware('role:super-admin|customer')->only([
+            'index', 'show'
+        ]);
 
     }
 

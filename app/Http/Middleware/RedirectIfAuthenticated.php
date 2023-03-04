@@ -23,9 +23,9 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 // check here about user and redirect them respectively
                 if(auth()->user()->hasRole('super-admin'))
-                    return redirect('/dashboard');
+                    return redirect('/groups');
 
-                return redirect('/');
+                return redirect('/groups');
             }
         }
 

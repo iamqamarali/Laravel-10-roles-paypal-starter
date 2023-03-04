@@ -11,7 +11,9 @@
                 <div class="card-body m-3">
                     <div class="d-flex justify-content-between mb-3">
                         <h3>Groups</h3>
-                        <a href="@route('groups.create')" class="btn btn-dark ">Create Group</a>    
+                        @can('create-group')
+                            <a href="@route('groups.create')" class="btn btn-dark ">Create Group</a>                                
+                        @endcan
                     </div>
 
                     @include('partials.messages')
@@ -22,7 +24,9 @@
                             <th>Description</th>
                             <th>Members</th>
                             {{-- <th>Products</th> --}}
-                            <th></th>
+                            @can('delete-group')
+                                <th></th>
+                            @endcan
                         </thead>
                         <tbody>
                             @foreach ($groups as $group) 
@@ -30,25 +34,27 @@
                                     <td><a href="{{route('groups.products.index', $group->id)}}">{{ $group->name }}</a></td>
                                     <td>{{ $group->description }}</td>
                                     <td>{{ $group->users_count }}</td>
-                                    {{-- <td>{{ $group->amazon_products_count }}</td> --}}
-                                    <td>
-                                        <div class="dropdown">
-                                            <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                            <ul class="dropdown-menu dropdown-menu-end " >
-                                                <li>
-                                                    <a href="{{ route('groups.edit', $group->id) }}" class="dropdown-item">Edit</a>
-                                                </li>
-                                                <li>
-                                                    <form action="{{ route('groups.destroy', $group->id) }}" method="POST" >
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button type="button" class="dropdown-item delete-group" >Destroy</button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        
-                                    </td>
+                                    
+                                    @can('delete-group')
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                                <ul class="dropdown-menu dropdown-menu-end " >
+                                                    <li>
+                                                        <a href="{{ route('groups.edit', $group->id) }}" class="dropdown-item">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <form action="{{ route('groups.destroy', $group->id) }}" method="POST" >
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="button" class="dropdown-item delete-group" >Destroy</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>                 
+                                        </td>
+                                    @endcan
+
                                 </tr>
                             @endforeach
                         </tbody>

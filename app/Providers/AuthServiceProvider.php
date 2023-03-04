@@ -26,13 +26,13 @@ class AuthServiceProvider extends ServiceProvider
     {
 
         Gate::define('viewAny-group', function ($user) {
-            return $user->hasRole('super-admin|admin')
+            return $user->hasRole('super-admin|customer')
                      ? Response::allow()
                      : Response::denyAsNotFound();;
         });
 
         Gate::define('create-group', function ($user) {
-            return $user->hasRole('super-admin|admin')
+            return $user->hasRole('super-admin')
                         ? Response::allow()
                         : Response::denyAsNotFound();
         });
