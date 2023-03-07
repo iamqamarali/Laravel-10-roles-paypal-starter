@@ -619,6 +619,9 @@ h6{font-family:Open Sans;}
             label.wfacp-input-animated {
                 display: none;
             }
+            .wfacp-panel-wrapper .wfacp-container{
+                margin-top: -250px;
+            }
         </style>
     
     

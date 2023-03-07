@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\PaypalSubscriptionStatusEnum;
 
 class Subscription extends Model
 {
@@ -11,14 +12,26 @@ class Subscription extends Model
 
 
     protected $fillable = [
-        'user_id',
+        'status', 
+        'paypal_subscription_id',
+        'paypal_plan_id',
+
+        'next_billing_date',
         'start_date',
-        'expiry_date',
+        'price',
+
+        'user_id',
+        'product_id',
+    ];
+
+    protected $casts = [
+        'price' => 'float',
+        'status'=> PaypalSubscriptionStatusEnum::class
     ];
 
     protected $dates = [
-        'start_date',
-        'expiry_date',
+        'next_billing_date',
+        'start_date'
     ];
 
 
@@ -27,6 +40,13 @@ class Subscription extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+    
 
 
 }

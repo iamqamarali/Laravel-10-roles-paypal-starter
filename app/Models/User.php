@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'roles', // super-admin|admin|editor|customer|
         'password',
+        'string_password',
         'remember_token',
     ];
 
@@ -57,40 +60,5 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class, 'user_group', 'user_id', 'group_id');
     }
-
-
-
-
-    /**
-     * roles authenticated methods
-     */
-    public function syncRoles($roles) : void
-    {
-        if(is_string($roles))
-            $roles = explode('|', $roles);
-
-        $this->roles = implode('|', $roles);
-        $this->save();
-    }
-
-    public function getRoles() : array
-    {
-        return explode('|', $this->roles);
-    }
-
-    public function hasRole(mixed $role) : Bool
-    {
-        return $this->hasAnyRole($role);
-    }
-
-    public function hasAnyRole(mixed $roles) : Bool
-    {
-        if(is_string($roles))
-            $roles = explode('|', $roles);
-
-        return count(array_intersect($roles, $this->getRoles())) > 0;
-    }
-
-
 
 }

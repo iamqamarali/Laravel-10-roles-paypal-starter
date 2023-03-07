@@ -13,10 +13,20 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->nullable();
+            $table->foreignId("user_id")->nullable()->index();
             $table->foreign("user_id")->references("id")->on("users");
-            $table->datetime('start_date');
-            $table->datetime('expiry_date');
+
+            $table->foreignId("product_id")->nullable();
+            $table->foreign("product_id")->references("id")->on("products");
+
+            $table->string('status', 100);
+            $table->string('paypal_subscription_id', 80);
+            $table->string('paypal_plan_id', 80);
+
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('next_billing_date')->nullable();
+            $table->float('price');
+
             $table->timestamps();
         });
     }

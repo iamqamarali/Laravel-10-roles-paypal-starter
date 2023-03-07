@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\OnlineArbitrageLead\CheckoutController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubscriptionController;
+use App\Models\Subscription;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +25,7 @@ require __DIR__ . '/auth.php';
 
 
 // global routes
-Route::get('/checkouts/online-arbitrage-lead', [CheckoutController::class, 'index'])->name('online-arbitrage-lead.checkout');
+Route::get('/checkouts/online-arbitrage-lead', [CheckoutController::class, 'index'])->name('checkouts.online-arbitrage-lead');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -43,3 +46,9 @@ Route::resource('groups.products', AmazonProductsController::class)
  * customer area
  */
 Route::get('/', [PagesController::class, 'dashboard'])->name('dashboard');
+
+
+// paypal routes
+Route::get('/subscription/initiate', [SubscriptionController::class, 'initiateSubscription'])->name('subscription.initiate');
+Route::get('/subscription/success', [SubscriptionController::class, 'success'])->name('subscription.success');
+Route::get('/subscription/failed', [SubscriptionController::class, 'failed'])->name('subscription.failed');

@@ -17,23 +17,10 @@
     </head>
     <body >
 
-        @auth
-            <x-navbar></x-navbar>            
-        @endauth
-        
         <main ">
             @yield('content')
         </main>
-
-
-        @auth
-            <footer class="border bg-light  text-center">
-                <div class="container p-4">
-                    Copywrite &copy; {{ date('Y') }} fbacity.com
-                </div>
-            </footer>            
-        @endauth
-
+        
 
         <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
