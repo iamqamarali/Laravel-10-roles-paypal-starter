@@ -20,9 +20,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'first_name',
+        'last_name',
         'name',
         'email',
-        'password',
+
+        'temp_subscription_id',
     ];
 
     /**
@@ -33,7 +36,6 @@ class User extends Authenticatable
     protected $hidden = [
         'roles', // super-admin|admin|editor|customer|
         'password',
-        'string_password',
         'remember_token',
     ];
 
@@ -45,6 +47,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($user){            
+            $user->new_account = true;
+        });
+
+        static::saving(function ($user) {
+            $user->name = $user->first_name . ' ' . $user->last_name;
+        });
+    }
 
 
 
@@ -60,5 +76,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class, 'user_group', 'user_id', 'group_id');
     }
+
+
+
+    /**
+     * scopes
+     */
+
+
+
+
+    /**
+     * methods
+     */
+    public function hasActiveSubscription(){
+        return $this->subscriptions()->where('status', \App\Enums\PaypalSubscriptionStatusEnum::ACTIVE->toString())->exists();
+    }
+
 
 }

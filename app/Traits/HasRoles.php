@@ -35,4 +35,22 @@ trait HasRoles{
     }
 
 
+
+    /**
+     * scopes
+     */
+    public function scopeRoles($query, $roles){
+        if(is_string($roles))
+            $roles = explode('|', $roles);
+
+        collect($roles)->each(function($role, $index)use($query){
+            if($index ==0){
+                $query->where('roles', 'LIKE', "%{$role}%");
+            }else{
+                $query->orWhere('roles', 'LIKE', "%{$role}%");
+            }
+        });
+    }
+
+
 }

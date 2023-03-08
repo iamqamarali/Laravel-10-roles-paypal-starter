@@ -19,6 +19,7 @@ class Subscription extends Model
         'next_billing_date',
         'start_date',
         'price',
+        'is_new',
 
         'user_id',
         'product_id',
@@ -26,14 +27,11 @@ class Subscription extends Model
 
     protected $casts = [
         'price' => 'float',
-        'status'=> PaypalSubscriptionStatusEnum::class
-    ];
+        'status'=> PaypalSubscriptionStatusEnum::class,
 
-    protected $dates = [
-        'next_billing_date',
-        'start_date'
+        'next_billing_date' => 'datetime',
+        'start_date' => 'datetime',
     ];
-
 
 
     public function user()

@@ -15,7 +15,7 @@ class UsersSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $admin = \App\Models\User::factory()->create([
-            'name' => 'Admin',
+            'first_name' => 'Admin',
             'email' => "admin@gmail.com"
         ]);
         $admin->password = bcrypt('password');
@@ -26,7 +26,7 @@ class UsersSeeder extends Seeder
 
         // customer
         $admin = \App\Models\User::factory()->create([
-            'name' => 'Customer',
+            'first_name' => 'Customer',
             'email' => "customer@gmail.com"
         ]);
         $admin->password = bcrypt('password');

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamp('start_date')->nullable();
             $table->timestamp('next_billing_date')->nullable();
             $table->float('price');
-
+            
             $table->timestamps();
         });
     }

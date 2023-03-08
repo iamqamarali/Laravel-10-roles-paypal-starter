@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
-<title>Checkout | Amazon FBA Research</title>
+<title>Checkout | Amazon FBA Research</title> 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="wfacp_aero_checkout_id" id="wfacp_aero_checkout_id" content="74202">
@@ -872,17 +872,27 @@ h6{font-family:Open Sans;}
     <div class="wfacp-left-panel wfacp_page pre_built single_step wfacp_last_page" data-step="single_step">
     <div class="wfacp-section wfacp-hg-by-box step_0 form_section_single_step_0_layout_1 wfacp_contact_information" data-field-count="4">
     <div class="wfacp_internal_form_wrap wfacp-comm-title dotted">
+
+    <h4 style="color:red;">
+        @include('partials.errors')
+    </h4>
+
     <h2 class="wfacp_section_heading wfacp_section_title wfacp-normal wfacp-text-left">Your Information</h2>
     <h4 class="wfacp-text-left wfacp-normal">Fields marked with * are mandatory</h4>
     </div>
     <div class="wfacp-comm-form-detail clearfix">
     <div class="wfacp-row">
-    <p class="form-row form-row-first wfacp-form-control-wrapper wfacp-col-left-half  validate-required" id="billing_first_name_field" data-priority="10"><label for="billing_first_name" class="wfacp-form-control-label">First name&nbsp;<abbr class="required" title="required">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text wfacp-form-control" name="billing_first_name" id="billing_first_name" placeholder="John" value="" autocomplete="given-name"></span></p><p class="form-row form-row-last wfacp-form-control-wrapper wfacp-col-left-half  validate-required" id="billing_last_name_field" data-priority="20"><label for="billing_last_name" class="wfacp-form-control-label">Last name&nbsp;<abbr class="required" title="required">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text wfacp-form-control" name="billing_last_name" id="billing_last_name" placeholder="Doe" value="" autocomplete="family-name"></span></p><p class="form-row form-row-wide wfacp-form-control-wrapper wfacp-col-full  validate-required validate-email validate-email" id="billing_email_field" data-priority="110"><label for="billing_email" class="wfacp-form-control-label">Email&nbsp;<abbr class="required" title="required">*</abbr></label><span class="woocommerce-input-wrapper"><input type="email" class="input-text wfacp-form-control" name="billing_email" id="billing_email" placeholder="john.doe@example.com " value="" autocomplete="email username"></span></p> <div class="woocommerce-account-fields">
+    <p class="form-row form-row-first wfacp-form-control-wrapper wfacp-col-left-half  validate-required" id="billing_first_name_field" data-priority="10"><label for="billing_first_name" class="wfacp-form-control-label">First name&nbsp;<abbr class="required" title="required">*</abbr></label><span class="woocommerce-input-wrapper">
+        <input type="text" class="input-text wfacp-form-control" name="first_name" form="paypal-subscribe-form" placeholder="John" value="{{ old('first_name') }}" autocomplete="given-name"></span></p><p class="form-row form-row-last wfacp-form-control-wrapper wfacp-col-left-half  validate-required" id="billing_last_name_field" data-priority="20"><label for="billing_last_name" class="wfacp-form-control-label">Last name&nbsp;<abbr class="required" title="required">*</abbr></label><span class="woocommerce-input-wrapper">
+            <input type="text" class="input-text wfacp-form-control" name="last_name" form="paypal-subscribe-form" id="billing_last_name" placeholder="Doe" value="{{ old('last_name') }}" autocomplete="family-name"></span></p><p class="form-row form-row-wide wfacp-form-control-wrapper wfacp-col-full  validate-required validate-email validate-email" id="billing_email_field" data-priority="110"><label for="billing_email" class="wfacp-form-control-label">Email&nbsp;<abbr class="required" title="required">*</abbr></label><span class="woocommerce-input-wrapper">
+                <input type="email" class="input-text wfacp-form-control" name="email" form="paypal-subscribe-form" id="billing_email" placeholder="john.doe@example.com " value="{{ old('email') }}" autocomplete="email username"></span></p> <div class="woocommerce-account-fields">
     </div>
     <p class="form-row notes wfacp-form-control-wrapper wfacp-col-full  wfacp_last_section_fields" id="order_comments_field" data-priority=""><label for="order_comments" class="wfacp-form-control-label">Order notes&nbsp;<span class="optional">(optional)</span></label><span class="woocommerce-input-wrapper"><textarea name="order_comments" class="input-text wfacp-form-control" id="order_comments" placeholder="" rows="2" cols="5" style="height:68px;overflow-y:hidden;"></textarea></span></p> </div>
     </div>
     </div>
     <div class="wfacp-section wfacp-hg-by-box step_1 form_section_single_step_1_layout_1 wfacp_product_switcher wfacp_product_switcher wfacp_product_switcher" data-field-count="1">
+
+    
     <div class="wfacp_internal_form_wrap wfacp-comm-title dotted">
     <h2 class="wfacp_section_heading wfacp_section_title wfacp-normal wfacp-text-left">Your Products</h2>
     </div>
@@ -1047,59 +1057,18 @@ h6{font-family:Open Sans;}
     </div>
     <div class="woocommerce-checkout-review-order wfacp-oder-detail clearfix">
     <div class="wfob_bump_wrapper woocommerce_checkout_order_review_above_payment_gateway" data-time="1677618800"></div>     <div id="payment" class="woocommerce-checkout-payment">
-                        <ul class="wc_payment_methods payment_methods methods">
-                    <li class="wc_payment_method payment_method_paypal">
-        <input id="payment_method_paypal" type="radio" class="input-radio" name="payment_method" value="paypal" checked="checked" data-order_button_text="Proceed to PayPal">
-    
-        <label for="payment_method_paypal">
-            PayPal <img src="https://fbacity.com/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png" alt="PayPal acceptance mark"><a href="https://www.paypal.com/mt/cgi-bin/webscr?cmd=xpt/Marketing/general/WIPaypal-outside" class="about_paypal" onclick="javascript:window.open('https://www.paypal.com/mt/cgi-bin/webscr?cmd=xpt/Marketing/general/WIPaypal-outside','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;">What is PayPal?</a>	</label>
-                <div class="payment_box payment_method_paypal">
-                <p>Pay via PayPal or your Credit Card (No Paypal Account Required)</p>
-            </div>
-        </li>
-    <li class="wc_payment_method payment_method_stripe">
-        <input id="payment_method_stripe" type="radio" class="input-radio" name="payment_method" value="stripe" data-order_button_text="">
-    
-        <label for="payment_method_stripe">
-            Credit Card (Stripe) 	</label>
-                <div class="payment_box payment_method_stripe" style="display:none;">
-                <div id="stripe-payment-data" data-email="" data-full-name=" " data-currency="usd"><p>Pay with your credit card via Stripe.</p>
-    <ul class="woocommerce-SavedPaymentMethods wc-saved-payment-methods" data-count="0"></ul>		<fieldset id="wc-stripe-cc-form" class="wc-credit-card-form wc-payment-form" style="background:transparent;">
-                
-                                <div class="form-row form-row-wide">
-                        <label for="stripe-card-element">Card Number <span class="required">*</span></label>
-                        <div class="stripe-card-group">
-                            <div id="stripe-card-element" class="wc-stripe-elements-field StripeElement empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe name="__privateStripeFrame4057" frameborder="0" allowtransparency="true" scrolling="no" role="presentation" allow="payment *" src="https://js.stripe.com/v3/elements-inner-card-95d5b06b50c1328f069602a0c0560d88.html#locale=en&amp;wait=false&amp;mids[guid]=NA&amp;mids[muid]=96e4bf56-32da-46f6-be8c-03bd45a91ef76391de&amp;mids[sid]=11d7c862-1691-418d-8b2e-29ff8049ddf34bd93d&amp;style[base][iconColor]=%23666EE8&amp;style[base][color]=%2331325F&amp;style[base][fontSize]=15px&amp;style[base][::placeholder][color]=%23CFD7E0&amp;rtl=false&amp;componentName=cardNumber&amp;keyMode=live&amp;apiKey=pk_live_51Gm28EDovxcQBSgZSEfmHG1J1Q0iodRbR6yFrQqar610jqmnjYThtrgcPcN9ysVNifR6sDk4JtGYKOPGjoQqKAE200Krufku2T&amp;referrer=https%3A%2F%2Ffbacity.com%2Fcheckouts%2Fonline-arbitrage-lead%2F&amp;controllerId=__privateStripeController4051" title="Secure card number input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; transform: translate(0px) !important; color-scheme: light only !important; height: 18px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: -1px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>
-    
-                            <i class="stripe-credit-card-brand stripe-card-brand" alt="Credit Card"></i>
+                <ul class="wc_payment_methods payment_methods methods">
+                                <li class="wc_payment_method payment_method_paypal">
+
+                    <input id="payment_method_paypal" type="radio" class="input-radio" name="payment_method" value="paypal" checked="checked" data-order_button_text="Proceed to PayPal">
+                  
+                    <label for="payment_method_paypal">
+                        PayPal <img src="https://fbacity.com/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png" alt="PayPal acceptance mark"><a href="https://www.paypal.com/mt/cgi-bin/webscr?cmd=xpt/Marketing/general/WIPaypal-outside" class="about_paypal" onclick="javascript:window.open('https://www.paypal.com/mt/cgi-bin/webscr?cmd=xpt/Marketing/general/WIPaypal-outside','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;">What is PayPal?</a>	</label>
+                            <div class="payment_box payment_method_paypal">
+                            <p>Pay via PayPal or your Credit Card (No Paypal Account Required)</p>
                         </div>
-                    </div>
-    
-                    <div class="form-row form-row-first">
-                        <label for="stripe-exp-element">Expiry Date <span class="required">*</span></label>
-    
-                        <div id="stripe-exp-element" class="wc-stripe-elements-field StripeElement empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe name="__privateStripeFrame4058" frameborder="0" allowtransparency="true" scrolling="no" role="presentation" allow="payment *" src="https://js.stripe.com/v3/elements-inner-card-95d5b06b50c1328f069602a0c0560d88.html#locale=en&amp;wait=false&amp;mids[guid]=NA&amp;mids[muid]=96e4bf56-32da-46f6-be8c-03bd45a91ef76391de&amp;mids[sid]=11d7c862-1691-418d-8b2e-29ff8049ddf34bd93d&amp;style[base][iconColor]=%23666EE8&amp;style[base][color]=%2331325F&amp;style[base][fontSize]=15px&amp;style[base][::placeholder][color]=%23CFD7E0&amp;rtl=false&amp;componentName=cardExpiry&amp;keyMode=live&amp;apiKey=pk_live_51Gm28EDovxcQBSgZSEfmHG1J1Q0iodRbR6yFrQqar610jqmnjYThtrgcPcN9ysVNifR6sDk4JtGYKOPGjoQqKAE200Krufku2T&amp;referrer=https%3A%2F%2Ffbacity.com%2Fcheckouts%2Fonline-arbitrage-lead%2F&amp;controllerId=__privateStripeController4051" title="Secure expiration date input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; transform: translate(0px) !important; color-scheme: light only !important; height: 18px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: -1px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>
-                    </div>
-    
-                    <div class="form-row form-row-last">
-                        <label for="stripe-cvc-element">Card Code (CVC) <span class="required">*</span></label>
-                    <div id="stripe-cvc-element" class="wc-stripe-elements-field StripeElement empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe name="__privateStripeFrame4059" frameborder="0" allowtransparency="true" scrolling="no" role="presentation" allow="payment *" src="https://js.stripe.com/v3/elements-inner-card-95d5b06b50c1328f069602a0c0560d88.html#locale=en&amp;wait=false&amp;mids[guid]=NA&amp;mids[muid]=96e4bf56-32da-46f6-be8c-03bd45a91ef76391de&amp;mids[sid]=11d7c862-1691-418d-8b2e-29ff8049ddf34bd93d&amp;style[base][iconColor]=%23666EE8&amp;style[base][color]=%2331325F&amp;style[base][fontSize]=15px&amp;style[base][::placeholder][color]=%23CFD7E0&amp;rtl=false&amp;componentName=cardCvc&amp;keyMode=live&amp;apiKey=pk_live_51Gm28EDovxcQBSgZSEfmHG1J1Q0iodRbR6yFrQqar610jqmnjYThtrgcPcN9ysVNifR6sDk4JtGYKOPGjoQqKAE200Krufku2T&amp;referrer=https%3A%2F%2Ffbacity.com%2Fcheckouts%2Fonline-arbitrage-lead%2F&amp;controllerId=__privateStripeController4051" title="Secure CVC input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; transform: translate(0px) !important; color-scheme: light only !important; height: 18px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: -1px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>
-                    </div>
-                    <div class="clear"></div>
-                
-                <!-- Used to display form errors -->
-                <div class="stripe-source-errors" role="alert"></div>
-                            <div class="clear"></div>
-            </fieldset>
-                    <fieldset>
-                <p class="form-row woocommerce-SavedPaymentMethods-saveNew woocommerce-validated">
-                    <input id="wc-stripe-new-payment-method" name="wc-stripe-new-payment-method" type="checkbox" value="true" style="width:auto;">
-                    <label for="wc-stripe-new-payment-method" style="display:inline;">
-                        Save payment information to my account for future purchases.				</label>
-                </p>
-            </fieldset>
-            </div>		</div>
-        </li>
+                    </li>
+
                 </ul>
                         <div class="form-row place-order">
                     <noscript>
@@ -1110,8 +1079,12 @@ h6{font-family:Open Sans;}
             <div class="woocommerce-privacy-policy-text"><p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="https://fbacity.com/privacy-policy/" class="woocommerce-privacy-policy-link" target="_blank">privacy policy</a>.</p>
     </div>
                 </div>
-                        <div class="wfacp-order-place-btn-wrap  "><button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Order Now →" data-value="Order Now →">Proceed to PayPal</button></div>		<div id="woo_pp_ec_button_checkout" class="wc_ppec_responsive_payment_buttons"><div id="zoid-paypal-buttons-uid_a5b89d8c6e_mje6mtm6mje" class="paypal-buttons paypal-buttons-context-iframe paypal-buttons-label-paypal paypal-buttons-layout-vertical" data-paypal-smart-button-version="5.0.356" style="height: 0px; transition: all 0.2s ease-in-out 0s;"><style nonce="">
-                        #zoid-paypal-buttons-uid_a5b89d8c6e_mje6mtm6mje {
+                        <div class="wfacp-order-place-btn-wrap  ">
+                        <button type="button" class="button alt proceed-to-paypal-button" name="submit"  form="paypal-subscribe-form" id="place_order" >Proceed to PayPal</button></div>		<div id="woo_pp_ec_button_checkout" class="wc_ppec_responsive_payment_buttons"><div id="zoid-paypal-buttons-uid_a5b89d8c6e_mje6mtm6mje" class="paypal-buttons paypal-buttons-context-iframe paypal-buttons-label-paypal paypal-buttons-layout-vertical" data-paypal-smart-button-version="5.0.356" style="height: 0px; transition: all 0.2s ease-in-out 0s;">
+                        <style nonce="">
+                       
+                       
+                       #zoid-paypal-buttons-uid_a5b89d8c6e_mje6mtm6mje {
                             position: relative;
                             display: inline-block;
                             width: 100%;
@@ -1565,6 +1538,31 @@ h6{font-family:Open Sans;}
     <div class="brz-root__container-after"></div>
     
     
+
+
+
+    <form action="{{ route('subscription.initiate') }}" method="post" id="paypal-subscribe-form">
+        @csrf
+
+    </form>
+    <script>
+        let proceedBtn = document.querySelector('.proceed-to-paypal-button');
+        let from = document.getElementById('paypal-subscribe-form')
+        let submitted = false
+        proceedBtn.addEventListener('click', function (e) {
+            if(submitted) 
+                return ;
+
+            submitted = true
+
+            document.createElement('form').submit.call(from)
+
+            this.setAttribute('disabled', true);
+        });
+
+    </script>
+
+
 </body>
 
 </html>

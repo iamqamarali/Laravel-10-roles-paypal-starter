@@ -2,13 +2,14 @@
 
 use App\Http\Controllers\Admin\AmazonProductsController;
 use App\Http\Controllers\Admin\GroupsController;
+use App\Http\Controllers\NewSubscriberController;
 use App\Http\Controllers\OnlineArbitrageLead\CheckoutController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route; 
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,10 @@ Route::get('/', [PagesController::class, 'dashboard'])->name('dashboard');
 
 
 // paypal routes
-Route::get('/subscription/initiate', [SubscriptionController::class, 'initiateSubscription'])->name('subscription.initiate');
+Route::post('/subscription/initiate', [SubscriptionController::class, 'initiateSubscription'])->name('subscription.initiate');
 Route::get('/subscription/success', [SubscriptionController::class, 'success'])->name('subscription.success');
 Route::get('/subscription/failed', [SubscriptionController::class, 'failed'])->name('subscription.failed');
+
+// new Account
+Route::post('/subscriber/new/{userId}/{paypal_subscription_id}', [NewSubscriberController::class, 'changeNewAccountPassword'])->name('subscriber.new.change-password');
+

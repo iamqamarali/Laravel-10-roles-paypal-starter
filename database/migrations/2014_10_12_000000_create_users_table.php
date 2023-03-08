@@ -16,10 +16,16 @@ return new class extends Migration
             $table->id();
             //$table->uuid('id')->primary()->default(DB::raw('uuid()'));
             $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
+            $table->string('temp_subscription_id')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            
             $table->string('password');
             $table->string('roles')->nullable();
+
+            $table->boolean('new_account')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

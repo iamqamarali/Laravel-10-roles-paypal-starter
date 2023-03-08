@@ -24,4 +24,10 @@ enum PaypalSubscriptionStatusEnum: string
         };
     }
 
+
+    public function isActive(){
+        return $this == self::ACTIVE;
+    }
+
+
 }

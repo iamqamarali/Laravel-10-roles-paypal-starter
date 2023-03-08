@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaypalSubscriptionStatusEnum;
 use App\Models\Product;
 use App\Models\Subscription;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -19,39 +22,62 @@ class SubscriptionController extends Controller
     public function initiateSubscription(Request $request)
     {        
         $request->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email',            
         ]);
+
+        $customer = null;
+        if(!$customer = User::where('email', $request->email)->first()){
+            $customer = User::make([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+            ]);
+            $customer->password = bcrypt(str()->random(10));
+            $customer->syncRoles('customer');
+        }
+
+        if($customer->hasActiveSubscription()){
+            return "You already have an active subscription";
+        }
+
 
         $product = Product::first();
 
         $provider = new \Srmklive\PayPal\Services\PayPal(config('paypal'));
         $provider->getAccessToken();
-
  
         $data = json_decode('{
             "plan_id": "'.$product->paypal_plan_id.'",
             "quantity": "1",
             "subscriber": {
             "name": {
-                "given_name": "Qamar",
-                "surname": "Ali"
+                "given_name": "'. $request->first_name .'",
+                "surname": "'. $request->last_name .'"
             },
-            "email_address": "qamar@example.com"
+            "email_address": "'. $request->email .'"
             },
             "application_context": {
                 "brand_name": "Fbacity",
                 "locale": "en-US",
                 "shipping_preference": "NO_SHIPPING",
                 "user_action": "SUBSCRIBE_NOW",
-                "return_url": "http://localhost:8000/paypal-success",
-                "cancel_url": "https://localhost:8000/paypal-cancel"
+                "return_url": "'. route('subscription.success') .'",
+                "cancel_url": "'. route('subscription.failed') .'"
             }
         }', true);
 
-        $subscription = $provider->createSubscription($data);
+        try{
+            $subscription = $provider->createSubscription($data);
+            $customer->temp_subscription_id = $subscription['id'];
+            $customer->save();
 
-        return redirect($subscription['links'][0]['href']);
+            return redirect($subscription['links'][0]['href']);    
+        }catch(\Exception $e){
+            return "There is some problem creating a subscription please try again later";
+        }
+
     }
 
 
@@ -59,26 +85,69 @@ class SubscriptionController extends Controller
      * 
      * (Paypal Return URL) if the subscription succeed
      */
-    public function success(Request $request): View
+    public function success(Request $request): string|View 
     {
-        // $provider = new \Srmklive\PayPal\Services\PayPal(config('paypal'));
-        // $provider->getAccessToken();
-        // $subscription = $provider->showSubscriptionDetails($request->subscription_id);  
-
-        // // fetch the product to attach to user subscription
-        // $product = Product::where('paypal_plan_id', $subscription['plan_id'])->first();
+        /**
+         * check if any customer started the subscription
+         */
+        $customer = User::where('temp_subscription_id', $request->subscription_id)->first();
+        $customer = User::roles('customer')->skip(1)->first();
         
-        // $sub = Subscription::create([
-        //     'status' => $subscription['status'],
-        //     'paypal_subscription_id' => $subscription['id'],
-        //     'paypal_plan_id' => $product->paypal_plan_id,
-        //     'product_id' => $product->id,
-        //     'price' => $product->price,
-        // ]);
-            $sub = null;
+
+
+        if(!$customer){
+            return abort(404, 'Customer not found');
+        }
+
+
+        /**
+         * Fetch subscription from paypal
+         */
+        $subscription = null;
+        try{
+            $provider = new \Srmklive\PayPal\Services\PayPal(config('paypal'));
+            $provider->getAccessToken();
+            $subscription = $provider->showSubscriptionDetails($request->subscription_id);
+        }catch(\Exception $e){
+            return abort(404, 'Subscription not found');
+        }
+
+        if(!$subscription || !isset($subscription['billing_info']))
+            return abort(404, 'Subscription not found');
+
+
+        /**
+         * check if the subscription is active
+         */
+        if(!PaypalSubscriptionStatusEnum::from($subscription['status'])->isActive()){
+            return abort(404, 'Subscription not active');
+        }
+
+
+
+        $product = Product::where('paypal_plan_id', $subscription['plan_id'])->first();        
+
+        $sub = Subscription::create([
+            'next_billing_date' => Carbon::parse($subscription['billing_info']['next_billing_time']),
+            'start_date' => Carbon::parse($subscription['start_time']),
+    
+            'status' => $subscription['status'],
+            'paypal_subscription_id' => $subscription['id'],
+            'paypal_plan_id' => $product->paypal_plan_id,
+            'price' => $product->price,
+        ]);
+
+        $sub->product()->associate($product);
+        $sub->user()->associate($customer);
+        $sub->save();
+        
+        $customer->temp_subscription_id = null ;
+        $customer->save();
+
         
         return view('subscription.success')
-                    ->with('subscription', $sub);
+                    ->with('subscription', $sub)
+                    ->with('customer', $customer);
     }
 
 
@@ -86,7 +155,7 @@ class SubscriptionController extends Controller
      * 
      * (Paypal Return URL) if the subscription failed
      */
-    public function failed(Request $request): View
+    public function failed(Request $request): string|View
     {
         $provider = new \Srmklive\PayPal\Services\PayPal(config('paypal'));
         $provider->getAccessToken();
