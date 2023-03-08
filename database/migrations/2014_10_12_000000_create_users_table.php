@@ -25,7 +25,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('roles')->nullable();
 
-            $table->boolean('new_account')->nullable();
+            $table->boolean('should_change_password')->nullable();
+            $table->boolean('should_choose_groups')->nullable();
+
+            $table->json('data')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

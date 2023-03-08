@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
     {
 
         Gate::define('viewAny-group', function ($user) {
-            return $user->hasRole('super-admin|customer')
+            return $user->hasRole('super-admin')
                      ? Response::allow()
                      : Response::denyAsNotFound();;
         });

@@ -26,6 +26,8 @@ class User extends Authenticatable
         'email',
 
         'temp_subscription_id',
+        'should_choose_groups',
+        'should_change_password',
     ];
 
     /**
@@ -46,6 +48,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'data' => 'json'
     ];
 
 
@@ -54,7 +57,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function($user){            
-            $user->new_account = true;
+
         });
 
         static::saving(function ($user) {
@@ -85,12 +88,11 @@ class User extends Authenticatable
 
 
 
-
     /**
      * methods
      */
     public function hasActiveSubscription(){
-        return $this->subscriptions()->where('status', \App\Enums\PaypalSubscriptionStatusEnum::ACTIVE->toString())->exists();
+        return $this->subscriptions()->active()->exists();
     }
 
 

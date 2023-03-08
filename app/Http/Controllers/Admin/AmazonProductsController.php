@@ -14,12 +14,7 @@ class AmazonProductsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:super-admin')->except([
-            'index', 'show'
-        ]);
-        $this->middleware('role:super-admin|customer')->only([
-            'index', 'show'
-        ]);
+        $this->middleware('role:super-admin');
     }
 
     /** 

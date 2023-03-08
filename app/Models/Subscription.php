@@ -46,5 +46,14 @@ class Subscription extends Model
     }
     
 
+    /**
+     * 
+     * scope for active subscriptions
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status',\App\Enums\PaypalSubscriptionStatusEnum::ACTIVE);
+    }
+
 
 }

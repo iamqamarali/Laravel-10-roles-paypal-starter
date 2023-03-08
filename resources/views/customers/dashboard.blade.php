@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-customer')
 
 @section('title', 'Dashboard | ' . config('app.name', 'Laravel') )
     

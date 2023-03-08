@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\PaypalSubscriptionStatusEnum;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckSubscriptionMiddleware
+class CheckNewAccountMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,18 +16,24 @@ class CheckSubscriptionMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
-        if(!$user)
+        if(!$user){
             return redirect()->route('login');
+        }
 
         if(!$user->hasRole('customer')){
             return $next($request);
         }
-    
-        if($user->hasActiveSubscription())
-            return $next($request);
 
 
-        return abort(403, 'You do not have an active subscription');
+        // if user haven't changed it's password yet
+        if($user->should_change_password){
+            return redirect()->route('newsubscriber.change-password-view');
+        }
+
+        // if($user->should_select_groups){
+        //     return redirect()->route('newsubscriber.choose-groups-view');
+        // }
+
+        return $next($request);
     }
-
 }

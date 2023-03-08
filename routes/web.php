@@ -55,5 +55,7 @@ Route::get('/subscription/success', [SubscriptionController::class, 'success'])-
 Route::get('/subscription/failed', [SubscriptionController::class, 'failed'])->name('subscription.failed');
 
 // new Account
-Route::post('/subscriber/new/{userId}/{paypal_subscription_id}', [NewSubscriberController::class, 'changeNewAccountPassword'])->name('subscriber.new.change-password');
-
+Route::get('/new-subscriber/change-password', [NewSubscriberController::class, 'changePasswordView'])->name('newsubscriber.change-password-view');
+Route::post('/new-subscriber/change-password', [NewSubscriberController::class, 'changePassword'])->name('newsubscriber.change-password');
+// Route::get('/new-subscriber/choose-group', [NewSubscriberController::class, 'chooseGroupsView'])->name('newsubscriber.choose-groups-view');
+// Route::post('/new-subscriber/choose-group', [NewSubscriberController::class, 'chooseGroups'])->name('newsubscriber.choose-groups');

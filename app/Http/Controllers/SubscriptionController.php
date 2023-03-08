@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PaypalSubscriptionStatusEnum;
+use App\Models\Group;
 use App\Models\Product;
 use App\Models\Subscription;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {   
@@ -33,13 +35,15 @@ class SubscriptionController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
+                'should_change_password' => true
             ]);
             $customer->password = bcrypt(str()->random(10));
             $customer->syncRoles('customer');
         }
 
         if($customer->hasActiveSubscription()){
-            return "You already have an active subscription";
+            return redirect()->route('login')
+                            ->with('warning', "You already have an active subscription");
         }
 
 
@@ -90,15 +94,11 @@ class SubscriptionController extends Controller
         /**
          * check if any customer started the subscription
          */
-        $customer = User::where('temp_subscription_id', $request->subscription_id)->first();
-        $customer = User::roles('customer')->skip(1)->first();
-        
-
-
+        $customer = User::where('temp_subscription_id', $request->subscription_id)
+                        ->first();
         if(!$customer){
-            return abort(404, 'Customer not found');
+            return redirect()->route('dashboard');
         }
-
 
         /**
          * Fetch subscription from paypal
@@ -125,6 +125,10 @@ class SubscriptionController extends Controller
 
 
 
+
+        /**
+         * Create a new subscription
+         */
         $product = Product::where('paypal_plan_id', $subscription['plan_id'])->first();        
 
         $sub = Subscription::create([
@@ -140,10 +144,19 @@ class SubscriptionController extends Controller
         $sub->product()->associate($product);
         $sub->user()->associate($customer);
         $sub->save();
-        
-        $customer->temp_subscription_id = null ;
+
+        Auth::login($customer);
+
+        // reset the temp_subscription_id
+        $customer->temp_subscription_id = null;
         $customer->save();
 
+        // assign a group to customer
+        $group = Group::has('users', '<', 15)->first();
+        $customer->groups()->sync($group->id);
+        $customer->save();
+
+        // send email to customer
         
         return view('subscription.success')
                     ->with('subscription', $sub)
@@ -160,6 +173,11 @@ class SubscriptionController extends Controller
         $provider = new \Srmklive\PayPal\Services\PayPal(config('paypal'));
         $provider->getAccessToken();
         $subscription = $provider->showSubscriptionDetails($request->subscription_id);
+
+        User::where('temp_subscription_id', $request->subscription_id)->update([
+            'temp_subscription_id' => null,
+        ]);
+
 
         return view('subscription.failed')
                     ->with('subscription', $subscription);
