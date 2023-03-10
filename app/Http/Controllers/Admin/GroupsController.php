@@ -27,7 +27,7 @@ class GroupsController extends Controller
     {
         Gate::authorize('viewAny-group');
 
-        $groups = Group::withCount('users')->paginate(12);
+        $groups = Group::withCount('users')->latest()->paginate(12);
 
         return view('groups.index')
                 ->with('groups', $groups);

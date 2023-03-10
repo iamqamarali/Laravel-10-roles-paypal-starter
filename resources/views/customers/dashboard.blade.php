@@ -21,28 +21,32 @@
                             <th></th>
                         </thead>
                         <tbody>
+                            @foreach ($customer->groups as $group) 
+                            <tr>
+                                <td>
+                                    <a href="{{route('groups.products.index', $group->id)}}">{{ $group->name }}</a>
+                                </td>
+                                <td>{{ $group->description }}</td>                                
+                                <td></td>
+                            </tr>
+                        @endforeach
+
                             @foreach ($groups as $group) 
-                                <tr class="{{ auth()->user()->cannot('show-group', $group) ? 'bg-light' : '' }}">
+                                <tr class="bg-light">
                                     <td>
-                                        @can('show-group', $group)
-                                            <a href="{{route('groups.products.index', $group->id)}}">{{ $group->name }}</a>
-                                        @else
-                                            <div>{{ $group->name }}</div>
-                                        @endcan
+                                        <div>{{ $group->name }}</div>
                                     </td>
                                     <td>{{ $group->description }}</td>
                                     
                                     <td>
-                                        @cannot('show-group', $group)
-                                            <div class="dropdown">
-                                                <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                                <ul class="dropdown-menu dropdown-menu-end " >
-                                                    <li>
-                                                        <a href="{{ route('checkouts.online-arbitrage-lead') }}" class="dropdown-item">Subscribe to see products from this group</a>
-                                                    </li>
-                                                </ul>
-                                            </div>                                                             
-                                        @endcannot
+                                        <div class="dropdown">
+                                            <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                            <ul class="dropdown-menu dropdown-menu-end " >
+                                                <li>
+                                                    <a href="{{ route('checkouts.online-arbitrage-lead') }}" class="dropdown-item">Subscribe to see products from this group</a>
+                                                </li>
+                                            </ul>
+                                        </div>                                                             
                                     </td>
 
                                 </tr>

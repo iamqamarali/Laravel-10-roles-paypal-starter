@@ -46,8 +46,8 @@ class SubscriptionController extends Controller
         $groups = $customer->groups;
  
         $groupExists = Group::canAddMembers()
-                                    ->whereNotIn('id', $groups->pluck('id'))
-                                    ->exists();
+                                ->whereNotIn('id', $groups->pluck('id'))
+                                ->exists();
         if(!$groupExists){
             return "There is no group where you can join at the moment";
         }

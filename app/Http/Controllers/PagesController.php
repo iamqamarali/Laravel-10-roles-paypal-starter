@@ -22,9 +22,10 @@ class PagesController extends Controller
         $customer->load('groups');
 
 
-        $groups = Group::canAddMembers()->paginate(15);
-        return view('customers.dashboard')
-                    ->withGroups($groups);
+        $groups = Group::canAddMembers()
+                        ->whereNotIn('id', $customer->groups->pluck('id'))
+                        ->paginate(15);
+        return view('customers.dashboard', compact('groups', 'customer'));
     }
 
     
