@@ -33,20 +33,27 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-
 /**
  * admin dashboard
  */
-Route::resource('groups', GroupsController::class);
-Route::resource('groups.products', AmazonProductsController::class)
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::resource('groups', GroupsController::class);
+    Route::resource('groups.products', AmazonProductsController::class)
                 ->shallow()
                 ->only(['index', 'create', 'store', 'destroy']);
- 
+});
+
+
+                
+
+
+                
 
 /**
  * customer area
  */
 Route::get('/', [PagesController::class, 'dashboard'])->name('dashboard');
+Route::get('/groups/{group}/products', [App\Http\Controllers\Customer\ProductsController::class, 'index'])->name('groups.products.index');
 
 
 // paypal routes
@@ -57,5 +64,3 @@ Route::get('/subscription/failed', [SubscriptionController::class, 'failed'])->n
 // new Account
 Route::get('/new-subscriber/change-password', [NewSubscriberController::class, 'changePasswordView'])->name('newsubscriber.change-password-view');
 Route::post('/new-subscriber/change-password', [NewSubscriberController::class, 'changePassword'])->name('newsubscriber.change-password');
-// Route::get('/new-subscriber/choose-group', [NewSubscriberController::class, 'chooseGroupsView'])->name('newsubscriber.choose-groups-view');
-// Route::post('/new-subscriber/choose-group', [NewSubscriberController::class, 'chooseGroups'])->name('newsubscriber.choose-groups');

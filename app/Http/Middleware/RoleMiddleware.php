@@ -20,6 +20,6 @@ class RoleMiddleware
             return $next($request);
         }
         
-        throw new HttpException(403, 'You are not authorized to access this page');
+        return redirect()->route('login');
     }
 }

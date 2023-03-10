@@ -19,6 +19,9 @@ return new class extends Migration
             $table->foreignId("product_id")->nullable();
             $table->foreign("product_id")->references("id")->on("products");
 
+            $table->foreignId("group_id")->nullable();
+            $table->foreign("group_id")->references("id")->on("groups");
+
             $table->string('status', 100);
             $table->string('paypal_subscription_id', 80);
             $table->string('paypal_plan_id', 80);

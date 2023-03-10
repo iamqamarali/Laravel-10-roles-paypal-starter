@@ -15,7 +15,7 @@
                             @include('partials.errors')
                             @include('partials.messages')
 
-                            <form action="{{ route('groups.products.store', $group->id) }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('admin.groups.products.store', $group->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="mt-2 mb-4">

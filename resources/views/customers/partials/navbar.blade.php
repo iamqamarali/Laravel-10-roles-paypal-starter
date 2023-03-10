@@ -4,16 +4,16 @@
       
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a 
                 @class([
                     'nav-link',
-                    'active' => Route::is('groups.index')
+                    'active' => Route::is('dashboard')
                 ]) 
-                href="{{ route('groups.index') }}">
-                    Products
+                href="{{ route('dashboard') }}">
+                    Groups
                 </a>
-            </li> --}}
+            </li>
            
             {{-- user shit here --}}
             <li class="nav-item dropdown">

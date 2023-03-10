@@ -57,7 +57,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function($user){            
-
+            $user->should_change_password = true;
         });
 
         static::saving(function ($user) {

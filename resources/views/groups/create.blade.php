@@ -15,10 +15,10 @@
                             @include('partials.errors')
                             @include('partials.messages')
 
-                            @routeis('groups.create')
-                                <form action="{{ route('groups.store') }}" method="post">
+                            @routeis('admin.groups.create')
+                                <form action="{{ route('admin.groups.store') }}" method="post">
                             @else
-                                <form action="{{ route('groups.update', $group->id) }}" method="post">
+                                <form action="{{ route('admin.groups.update', $group->id) }}" method="post">
                                     @method('PUT')
                             @endrouteis
                                 @csrf

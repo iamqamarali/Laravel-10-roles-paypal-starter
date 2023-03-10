@@ -12,13 +12,25 @@
                     <div class="card">
                         <div class="card-body p-5">
                             <h2 class="text-center mb-4">Thank you for your subscribing</h2>
-                            <p class="text-center">
-                                Before you can access your account, you need to set your password.
-                            </p>
 
-                            <p class="text-center">
-                                <a href="{{ route('newsubscriber.change-password-view') }}">Change Account Password</a>
-                            </p>
+                            {{-- if user need to change their password --}}
+                            @if ($customer->should_change_password)                                
+                                <p class="text-center">
+                                    Before you can access your account, you need to set your password.
+                                </p>
+
+                                <p class="text-center">
+                                    <a href="{{ route('newsubscriber.change-password-view') }}">Change Account Password</a>
+                                </p>
+                            @else
+                                <p class="text-center">
+                                    Go to your dashboard
+                                </p>
+
+                                <p class="text-center">
+                                    <a href="{{ route('dashboard') }}">Dashboard</a>
+                                </p>
+                            @endif
                             
 
                         </div>

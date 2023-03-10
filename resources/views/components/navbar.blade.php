@@ -9,9 +9,9 @@
             <a 
               @class([
                 'nav-link',
-                'active' => Route::is('groups.index')
+                'active' => Route::is('admin.groups.index')
               ]) 
-              href="{{ route('groups.index') }}">
+              href="{{ route('admin.groups.index') }}">
               Groups
             </a>
           </li>            

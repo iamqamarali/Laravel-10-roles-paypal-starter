@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -14,20 +15,18 @@ class PagesController extends Controller
         $this->middleware('new-account');
     }
 
-
+ 
 
     public function dashboard(){ 
         $customer = auth()->user();
-        $group = $customer->groups[0];
+        $customer->load('groups');
 
-        $sub = $customer->subscriptions()->active()->first();
 
-        $products = $group->amazon_products()
-                        ->where('created_at', '>=', $sub->start_date)
-                        ->paginate(20);
-
+        $groups = Group::canAddMembers()->paginate(15);
         return view('customers.dashboard')
-                    ->withProducts($products);
+                    ->withGroups($groups);
     }
+
+    
 
 }

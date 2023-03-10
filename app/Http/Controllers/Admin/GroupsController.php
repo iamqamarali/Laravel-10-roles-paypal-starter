@@ -59,7 +59,7 @@ class GroupsController extends Controller
         $group = Group::create($validated);
 
 
-        return redirect()->route('groups.index')->with('success', 'Group created successfully');
+        return redirect()->route('admin.groups.index')->with('success', 'Group created successfully');
     } 
 
     /**
@@ -96,7 +96,7 @@ class GroupsController extends Controller
         $group = $group->fill($validated)->save();
 
 
-        return redirect()->route('groups.index')->with('success', 'Group updated successfully');
+        return redirect()->route('admin.groups.index')->with('success', 'Group updated successfully');
 
     }
 

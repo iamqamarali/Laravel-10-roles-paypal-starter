@@ -95,7 +95,7 @@ class AmazonProductsController extends Controller
         }    
 
         return redirect()
-                    ->route('groups.products.index', $group->id)
+                    ->route('admin.groups.products.index', $group->id)
                     ->with('success', 'products for group '. $group->name .' added successfully');
     }
 
@@ -134,7 +134,7 @@ class AmazonProductsController extends Controller
         $group_id = $amazonProduct->group_id;
         $amazonProduct->delete();
 
-        return redirect()->route('groups.products.index', $group_id)
+        return redirect()->route('admin.groups.products.index', $group_id)
                         ->with('success', 'Product deleted successfully');
     }
 }

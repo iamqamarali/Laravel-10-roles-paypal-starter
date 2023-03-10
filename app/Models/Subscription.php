@@ -23,6 +23,7 @@ class Subscription extends Model
 
         'user_id',
         'product_id',
+        'group_id',
     ];
 
     protected $casts = [
@@ -43,6 +44,11 @@ class Subscription extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+
+    public function group(){
+        return $this->belongsTo(Group::class);
     }
     
 

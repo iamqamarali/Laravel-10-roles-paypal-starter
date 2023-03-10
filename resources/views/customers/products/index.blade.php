@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-customer')
 
 @section('title', 'Products | ' . config('app.name', 'Laravel') )
     
@@ -11,12 +11,7 @@
                 <div class="card-body m-3">
                     <div class="d-flex justify-content-between mb-3">
                         <h3>{{ $group->name }} - Products</h3>
-                        @can('create', App\Models\AmazonProduct::class)
-                            <a href="{{ route('admin.groups.products.create', $group->id) }}" class="btn btn-dark ">Upload Products</a>    
-                        @endcan
                     </div>
-
-                    @include('partials.messages')
 
                     <table class="table mb-5">
                         <thead>
@@ -34,7 +29,7 @@
                             <th>Discount Code</th>
                             <th>
                                 @php
-                                    $url = route('admin.groups.products.index', [$group->id,  
+                                    $url = route('groups.products.index', [$group->id,  
                                         'created_at' => request()->query('created_at') == 'desc' ? 'asc' : 'desc',
                                         'page' => 1 
                                     ]);
@@ -44,9 +39,6 @@
                                     <i class="fa-solid fa-arrow-{{ request()->query('created_at') == 'desc' ? 'up' : 'down' }}"></i>    
                                 </a>
                             </th>
-                            @can('delete', App\Model\AmazonProduct::class)
-                                <th></th>
-                            @endcan
                         </thead>
                         <tbody>
                             @foreach ($products as $product) 
@@ -68,24 +60,7 @@
                                     <td>{{ $product->data->roi  }}</td>
                                     <td>{{ str($product->data->discount_code)->substr(0,10) .'...'  }}</td>
                                     <td>{{ $product->created_at->format('d/m/Y') }}</td>
-
-                                    @can('delete', $product)
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                                <ul class="dropdown-menu dropdown-menu-end " >
-                                                    <li>
-                                                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" >
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="button" class="dropdown-item delete-product" >Destroy</button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    @endcan
-                                    
+                                                                        
                                 </tr>
                             @endforeach
                         </tbody>

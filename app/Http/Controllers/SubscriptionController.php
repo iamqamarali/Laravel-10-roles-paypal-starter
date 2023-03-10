@@ -35,19 +35,26 @@ class SubscriptionController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
-                'should_change_password' => true
             ]);
             $customer->password = bcrypt(str()->random(10));
             $customer->syncRoles('customer');
         }
 
-        if($customer->hasActiveSubscription()){
-            return redirect()->route('login')
-                            ->with('warning', "You already have an active subscription");
+        // check if there is any group
+        // where we can add new members
+        // and where $customer isn't already member of
+        $groups = $customer->groups;
+ 
+        $groupExists = Group::canAddMembers()
+                                    ->whereNotIn('id', $groups->pluck('id'))
+                                    ->exists();
+        if(!$groupExists){
+            return "There is no group where you can join at the moment";
         }
 
 
-        $product = Product::first();
+
+        $product = Product::first(); 
 
         $provider = new \Srmklive\PayPal\Services\PayPal(config('paypal'));
         $provider->getAccessToken();
@@ -94,11 +101,13 @@ class SubscriptionController extends Controller
         /**
          * check if any customer started the subscription
          */
+
         $customer = User::where('temp_subscription_id', $request->subscription_id)
                         ->first();
         if(!$customer){
             return redirect()->route('dashboard');
         }
+
 
         /**
          * Fetch subscription from paypal
@@ -124,6 +133,13 @@ class SubscriptionController extends Controller
         }
 
 
+        // find group
+        // where we can add new members
+        // and where $customer isn't already member of
+        $group = Group::canAddMembers()
+                        ->whereDoesntHave('users', function($q) use($customer){
+                            $q->where('user_id', $customer->id);
+                        })->first();
 
 
         /**
@@ -142,21 +158,22 @@ class SubscriptionController extends Controller
         ]);
 
         $sub->product()->associate($product);
+        $sub->group()->associate($group);
         $sub->user()->associate($customer);
         $sub->save();
 
         Auth::login($customer);
 
+
+        
+        // add the user to the group
+        $customer->groups()->attach($group->id);
+        $customer->save();
+
+
         // reset the temp_subscription_id
         $customer->temp_subscription_id = null;
         $customer->save();
-
-        // assign a group to customer
-        $group = Group::has('users', '<', 15)->first();
-        $customer->groups()->sync($group->id);
-        $customer->save();
-
-        // send email to customer
         
         return view('subscription.success')
                     ->with('subscription', $sub)

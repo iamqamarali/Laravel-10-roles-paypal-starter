@@ -29,4 +29,15 @@ class Group extends Model
     {
         return $this->hasMany(AmazonProduct::class);
     }
+
+
+    /**
+     * 
+     * Scopes
+     */
+    public function scopeCanAddMembers($query){
+        return $query->has('users', '<', 15);
+    }
+
+
 }

@@ -12,7 +12,7 @@
                     <div class="d-flex justify-content-between mb-3">
                         <h3>Groups</h3>
                         @can('create-group')
-                            <a href="@route('groups.create')" class="btn btn-dark ">Create Group</a>                                
+                            <a href="{{ route('admin.groups.create') }}" class="btn btn-dark ">Create Group</a>                                
                         @endcan
                     </div>
 
@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach ($groups as $group) 
                                 <tr>
-                                    <td><a href="{{route('groups.products.index', $group->id)}}">{{ $group->name }}</a></td>
+                                    <td><a href="{{route('admin.groups.products.index', $group->id)}}">{{ $group->name }}</a></td>
                                     <td>{{ $group->description }}</td>
                                     <td>{{ $group->users_count }}</td>
                                     
@@ -41,10 +41,10 @@
                                                 <a href="#" class="text-dark text-decoration-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                                 <ul class="dropdown-menu dropdown-menu-end " >
                                                     <li>
-                                                        <a href="{{ route('groups.edit', $group->id) }}" class="dropdown-item">Edit</a>
+                                                        <a href="{{ route('admin.groups.edit', $group->id) }}" class="dropdown-item">Edit</a>
                                                     </li>
                                                     <li>
-                                                        <form action="{{ route('groups.destroy', $group->id) }}" method="POST" >
+                                                        <form action="{{ route('admin.groups.destroy', $group->id) }}" method="POST" >
                                                             @csrf
                                                             @method('delete')
                                                             <button type="button" class="dropdown-item delete-group" >Destroy</button>

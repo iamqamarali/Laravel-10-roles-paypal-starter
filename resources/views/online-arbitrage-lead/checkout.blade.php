@@ -903,7 +903,6 @@ h6{font-family:Open Sans;}
     
                     <div class="product-remove">Products </div>
                     <div class="wfacp_qty_price_wrap">
-                                                <div class="product-quantity">Qty</div>
                                             <div class="product-name">Price</div>
                     </div>
                 </div>
@@ -936,13 +935,6 @@ h6{font-family:Open Sans;}
                         <div class="wfacp_product_quantity_container">
                                                         <div class="wfacp_quantity_selector" style="display:flex">
     
-                                    <div class="wfacp_quantity q_h">
-                                        <div class="wfacp_qty_wrap">
-                                            <div class="value-button wfacp_decrease_item" data-item-key="wfacp_63e14c6ecd5c8" onclick="decreaseItmQty(this,'')" value="Decrease Value">-</div>
-                                            <input type="number" step="1" min="0" max="" value="1" data-value="1" name="wfacp_product_switcher_quantity_wfacp_63e14c6ecd5c8" class="wfacp_product_switcher_quantity wfacp_product_quantity_number_field" onfocusout="this.value = (Math.abs(this.value)<0?0:Math.abs(this.value))">
-                                            <div class="value-button wfacp_increase_item" data-item-key="wfacp_63e14c6ecd5c8" onclick="increaseItmQty(this,'')" value="Increase Value">+</div>
-                                        </div>
-                                    </div>
     
                                 </div>
                                                     </div>
