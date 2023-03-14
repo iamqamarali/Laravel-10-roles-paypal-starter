@@ -15,7 +15,7 @@
         <!-- Scripts -->
         @vite(['resources/sass/app.sass'])
     </head>
-    <body >
+    <body class="@yield('body-class')">
 
         @auth
             @include('customers.partials.navbar')          

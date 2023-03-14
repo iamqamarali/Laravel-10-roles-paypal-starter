@@ -91,7 +91,7 @@ class User extends Authenticatable
     /**
      * methods
      */
-    public function hasActiveSubscription(){
+    public function haveActiveSubscription(){
         return $this->subscriptions()->active()->exists();
     }
 

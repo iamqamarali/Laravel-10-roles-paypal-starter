@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AmazonProductsController;
 use App\Http\Controllers\Admin\GroupsController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\NewSubscriberController;
 use App\Http\Controllers\OnlineArbitrageLead\CheckoutController;
 use App\Http\Controllers\PagesController;
@@ -41,10 +42,10 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::resource('groups.products', AmazonProductsController::class)
                 ->shallow()
                 ->only(['index', 'create', 'store', 'destroy']);
+    
+    Route::resource('users', UsersController::class);
 });
 
-
-                
 
 
                 

@@ -24,6 +24,7 @@ class PagesController extends Controller
 
         $groups = Group::canAddMembers()
                         ->whereNotIn('id', $customer->groups->pluck('id'))
+                        ->latest()
                         ->paginate(15);
         return view('customers.dashboard', compact('groups', 'customer'));
     }

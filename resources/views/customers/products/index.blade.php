@@ -3,9 +3,11 @@
 @section('title', 'Products | ' . config('app.name', 'Laravel') )
     
 
+@section('body-class', 'products-page')
+    
 @section('content')
     <div class="dashboard bg-light">
-        <div class="container py-4">
+        <div class="container-fluid py-4">
             
             <div class="card">
                 <div class="card-body m-3">

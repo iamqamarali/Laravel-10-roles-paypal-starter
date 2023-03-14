@@ -1,0 +1,25 @@
+.products-page{
+
+    .container-fluid, .card{
+        width: fit-content;
+    }
+
+    .table{
+        thead th{
+            position: sticky;
+            top: 0;
+            background-color: white;
+        }
+    }
+
+}
+
+@media (max-width: 668px) {
+    .products-page{
+        min-width: 100%;
+        width: fit-content;
+    
+    }
+}
+
+

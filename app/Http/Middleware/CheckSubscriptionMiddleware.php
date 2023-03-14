@@ -24,7 +24,7 @@ class CheckSubscriptionMiddleware
             return $next($request);
         }
     
-        if($user->hasActiveSubscription())
+        if($user->haveActiveSubscription())
             return $next($request);
 
 
